@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>瀑布流demo-jQ</title>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+	<script>
+//模拟一组后台数据
+	var dataInt={"data":[{"src":"img/毛茸茸.jpg"},{"src":"img/jufan.jpg"},{"src":"img/left.jpg"},{"src":"img/漂浮.jpg"},{"src":"img/mid.jpg"},{"src":"img/xia.jpg"},{"src":"img/毛茸茸.jpg"}]}
+		
+		$(window).on('load',function(){
+			waterfall();
+	})
+		$(window).on('scroll',function(){
+			if(checkScroll){
+				for(var i=0;i<dataInt.data.length;i++){
+					var box=$('<div>').addClass('box').appendTo($('#main'));
+					var pic=$('<div>').addClass('pic').appendTo($(box));
+					var img=$("<img>").appendTo($(pic));
+					img.attr('src',dataInt.data[i].src);
+				}
+				waterfall();
+			}
+		})
+
+//下面是判断是否达到加载条件的checkScroll()函数
+	function checkScroll(){
+		var $lastBox=$('#main>div').last();
+		var topBox=$lastBox.offset().top+Math.floor($lastBox.outerHeight/2);
+		var topScr=window.innerHeight+window.scrollTop;
+		return (topBox<topScr)?true:false;
+	}
+//下面是waterfall()函数
+	function waterfall(){
+		var $boxes=$("#main>div");
+	//确定列宽，设置main的宽度并设置居中
+		var cols=Math.floor(window.innerWidth/$boxes.eq(0).outerWidth());
+		$('#main').width(cols*$boxes.eq(0).outerWidth()).css('margin','0 auto');
+		var hArr=[];
+		$boxes.each(function(index,value){
+			var h=$boxes.eq(index).outerHeight();
+			if(index<cols){
+				hArr[index]=h;
+			}else{
+				var minH=Math.min.apply(null,hArr);
+				var minIndex=$.inArray(minH,hArr);
+				$(value).css({'position':'absolute','left':$boxes.eq( minIndex ).position().left+'px','top':minH+'px'});
+				hArr[minIndex]+=$boxes.eq(index).outerHeight();
+			}
+		});
+	}
+	$(function(){
+  		$("#return-top").click(function() {
+        $("html,body").animate({scrollTop:0}, 600);
+  		}); 
+ 	})
+	</script>
+</head>
+<body>
+	<style>
+	body{
+		background:#E8E8E8;
+	}
+	h1{
+		color:#FF7F00;
+		margin: 10px 50px 0 50px;
+		font-family: "微软雅黑";
+		font-size: 40px;
+	}
+	#main{
+		position: relative;
+	}
+	.box{
+		float: left;
+		break-inside: avoid;
+		padding: 15px 0 0 10px;
+
+	}
+	.pic{
+		width: 220px;
+		border:1px solid #ccc;
+		box-shadow: 0px 0px 5px #ccc;
+		padding: 10px;
+	}
+	.pic img{
+		width: 220px;
+		height: auto;
+	}
+	a{
+		height: 70px;
+		width: 22px;
+		background: url(img/return-top.png);
+		position: fixed;
+		left: 50%+247px;
+		bottom: 20px;
+	}
+</style>
+<body>
+	<!-- <h1>美食说</h1> -->
+	<div id="main">
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/xia.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/毛茸茸.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/left.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/mid.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/jufan.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/xia.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/毛茸茸.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/left.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/mid.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/jufan.jpg" alt="美食照片">
+			</div>
+		</div><div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/xia.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/毛茸茸.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/left.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/mid.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/jufan.jpg" alt="美食照片">
+			</div>
+		</div><div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/xia.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/毛茸茸.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/left.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/mid.jpg" alt="美食照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/jufan.jpg" alt="美食照片">
+			</div>
+		</div>
+	<a id="return-top" href="javascript:;"></a>
+</body>
+</html> 
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>瀑布流demo</title>
+</head>
+<script>
+	window.onload=function(){
+		waterfall('main','box');
+	};
+	//模拟一组后台数据
+	var dataInt={"data":[{"src":"img/毛茸茸.jpg"},{"src":"img/漂浮.jpg"},{"src":"img/毛茸茸.jpg"},{"src":"img/漂浮.jpg"},{"src":"img/毛茸茸.jpg"},{"src":"img/漂浮.jpg"},{"src":"img/毛茸茸.jpg"},{"src":"img/漂浮.jpg"}]}
+
+	window.onscroll=function(){
+		if(checkScroll){
+		var oParent=document.getElementById('main');
+    //将数据渲染到页面尾部
+	    for(var i=0;i<dataInt.data.length;i++){
+	    	var box=document.createElement('div');
+	    	box.className='box';
+	    	oParent.appendChild(box);
+	    	var pic=document.createElement('div');
+	    	pic.className='pic';
+	    	box.appendChild(pic);
+	    	var img=document.createElement('img')
+	    	img.src=dataInt.data[i].src;
+	         pic.appendChild(img);
+	    }
+    	waterfall('main','box');
+		}
+	}
+//写checkScroll()函数来判断是否达到了加载条件，返回布尔值
+	function checkScroll(){
+		var oparent=document.getElementById(parent);
+		var boxes=getByClass(oParent,'box');
+		lastBoxH=boxes[boxes.length-1].offsetTop+Math.floor(boxes[boxes.length-1].offsetHeight/2);
+		scrollH=window.innerHeight+document.body.scrollTop;
+		return (lastBoxH<scrollH)?true:false;
+	}
+
+//好，开始写waterfall（）函数
+	function waterfall(parent,box){
+	  var oParent=document.getElementById(parent);
+	  var boxes=getByClass(oParent,'box');
+      //计算列数(浏览器窗口宽度/列宽)
+	  var boxes_w=boxes[0].offsetWidth;
+	  var w=window.innerWidth;
+	  var cols=Math.floor(w/boxes_w);
+	  //设置main的宽度，并使其水平居中
+	  oParent.style.cssText='width:'+cols*boxes_w+'px;margin:0 auto;';
+	  
+	  //取每一列的高度，并存入一个数组hArr
+	  var hArr=[];
+	  for(var i=0;i<boxes.length;i++){
+	  	if(i<cols){
+	  		hArr.push(boxes[i].offsetHeight);
+	  	}else{
+	  		var minH=Math.min.apply(null,hArr);
+	  		var index=minH_index(hArr,minH);
+	  		boxes[i].style.position='absolute';
+	  		boxes[i].style.top=minH+'px';
+	  		boxes[i].style.left=boxes[index].offsetLeft+'px';
+	  		hArr[index]+=boxes[i].offsetHeight; 
+	  	}
+	  }
+	 
+	}
+//再写一个getByClass()函数来取子元素
+    function getByClass(parent,className){
+    	var eles=parent.getElementsByTagName('div');
+    	var boxArray=[];
+    	for(var i=0;i<eles.length;i++){
+    		if(eles[i].className==className){
+    			boxArray.push(eles[i]);
+    		}
+    	}
+    	return boxArray;	
+    }
+ //再写一个minH_index()函数，用来找到最小值在数组中的位置
+ 	function minH_index(arr,val){
+ 		for(var i in arr){
+ 			if(arr[i]==val){
+ 				return i;
+ 			}
+ 		}
+ 	}
+</script>
+<style>
+	#main{
+		position: relative;
+	}
+	.box{
+		float: left;
+		break-inside: avoid;
+		padding: 15px 0 0 10px;
+
+	}
+	.pic{
+		width: 220px;
+		border:1px solid #ccc;
+		box-shadow: 0px 0px 5px #ccc;
+		padding: 10px;
+	}
+	.pic img{
+		width: 220px;
+		height: auto;
+	}
+</style>
+<body>
+	<div id="main">
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+				<div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+				<div class="box">
+			<div class="pic">
+				<img src="img/mid.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/jufan.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+				<div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+				<div class="box">
+			<div class="pic">
+				<img src="img/xia.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/毛茸茸.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+				<div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+				<div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+				<div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+				<div class="box">
+			<div class="pic">
+				<img src="img/mid.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/jufan.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+				<div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+				<div class="box">
+			<div class="pic">
+				<img src="img/xia.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/毛茸茸.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+				<div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+				<div class="box">
+			<div class="pic">
+				<img src="img/sara.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/sara2.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/shousi.jpg" alt="照片">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="img/right.jpg" alt="照片">
+			</div>
+		</div>
+	</div>
+</body>
+</html> 
